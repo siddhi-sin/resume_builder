@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder - Create Professional Resumes in Minutes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9f0f4 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .intro-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #3498db;
+            opacity: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(52, 152, 219, 0.3);
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 1s ease-in-out forwards, pulse 2s infinite alternate;
+            position: relative;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #3498db, transparent);
+            border-radius: 4px;
+        }
+        
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
+        }
+        
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .logo-container {
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+        
+        .logo-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: skewX(-25deg);
+            filter: blur(5px);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            20%, 100% {
+                left: 200%;
+            }
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            color: #555;
+            animation: fadeIn 1s ease-in-out 0.5s forwards;
+            font-weight: 300;
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            max-width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .feature-desc {
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .cta-button {
+            padding: 1rem 2rem;
+            background-color: #3498db;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out 2s forwards;
+        }
+        
+        .cta-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .resume-preview {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 2rem auto;
+            opacity: 0;
+            animation: float 3s ease-in-out infinite, fadeIn 1s ease-in-out 1.5s forwards;
+        }
+        
+        .resume-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .resume-page:nth-child(1) {
+            transform: rotate(-5deg);
+        }
+        
+        .resume-page:nth-child(2) {
+            transform: rotate(3deg);
+        }
+        
+        .resume-page:nth-child(3) {
+            transform: rotate(0);
+        }
+        
+        .resume-line {
+            height: 10px;
+            background-color: #f0f0f0;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            width: 80%;
+        }
+        
+        .resume-line.short {
+            width: 60%;
+        }
+        
+        .resume-line.medium {
+            width: 70%;
+        }
+        
+        .resume-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-container">
+        <div class="hero-section">
+            <div class="logo-container">
+                <div class="logo">Resume Builder</div>
+                <div class="logo-shine"></div>
+            </div>
+            <div class="tagline">Create professional resumes in minutes !</div>
+        </div>
+        
+        <div class="resume-preview">
+            <div class="resume-page">
+                <div class="resume-circle"></div>
+                <div class="resume-line"></div>
+                <div class="resume-line short"></div>
+                <div class="resume-line medium"></div>
+                <div class="resume-line"></div>
+                <div class="resume-line short"></div>
+                <div class="resume-line"></div>
+            </div>
+            <div class="resume-page">
+                <div class="resume-circle"></div>
+                <div class="resume-line"></div>
+                <div class="resume-line medium"></div>
+                <div class="resume-line short"></div>
+                <div class="resume-line"></div>
+            </div>
+            <div class="resume-page">
+                <div class="resume-circle"></div>
+                <div class="resume-line"></div>
+                <div class="resume-line medium"></div>
+                <div class="resume-line short"></div>
+                <div class="resume-line"></div>
+                <div class="resume-line short"></div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature" id="feature1">
+                <div class="feature-icon">📝</div>
+                <h3 class="feature-title">Professional Templates</h3>
+                <p class="feature-desc">Choose from three top ATS-templates designed by HR professionals.</p>
+            </div>
+            
+            <div class="feature" id="feature2">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Quick & Easy</h3>
+                <p class="feature-desc">Build your perfect resume in minutes with our intuitive step-by-step process.</p>
+            </div>
+            
+            <div class="feature" id="feature3">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Live Preview</h3>
+                <p class="feature-desc">Get live preview of what your resume looks like while adding contents.</p>
+            </div>
+        </div>
+        
+        <button class="cta-button"><a href="main.html"></a>Get Started For Free</button>
+    </div>
+
+    <script>
+        // Animate features as they scroll into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature');
+            
+            // Show features with a delay between each
+            features.forEach((feature, index) => {
+                setTimeout(() => {
+                    feature.style.opacity = '1';
+                    feature.style.transform = 'translateY(0)';
+                }, 1000 + (index * 300));
+            });
+            
+            document.querySelector('.cta-button').addEventListener('click', function() {
+                // In a real implementation, this would navigate to the main application
+                window.location.href = 'main.html';
+            });
+        });
+    </script>
+</body>
+</html>

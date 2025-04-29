@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Resume Builder</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- jsPDF and html2canvas for PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Professional Resume Builder</h1>
+      <p>Create, customize, and download your professional resume in minutes</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="app-container">
+      <!-- Steps progress bar -->
+      <div class="steps-container">
+        <div class="step active" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-text">Personal</div>
+        </div>
+        <div class="step" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-text">Education</div>
+        </div>
+        <div class="step" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-text">Experience</div>
+        </div>
+        <div class="step" data-step="4">
+          <div class="step-number">4</div>
+          <div class="step-text">Skills</div>
+        </div>
+        <div class="step" data-step="5">
+          <div class="step-number">5</div>
+          <div class="step-text">Finalize</div>
+        </div>
+      </div>
+
+      <!-- Left panel: Form -->
+      <div class="form-panel">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="personal">Personal Info</button>
+          <button class="tab-btn" data-tab="education">Education</button>
+          <button class="tab-btn" data-tab="experience">Experience</button>
+          <button class="tab-btn" data-tab="skills">Skills</button>
+          <button class="tab-btn" data-tab="templates">Templates</button>
+        </div>
+
+        <!-- Personal Info Tab -->
+        <div class="tab-content active" id="personal-tab">
+          <h2>Personal Information</h2>
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" class="input-field" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label for="title">Professional Title</label>
+            <input type="text" id="title" class="input-field" placeholder="Software Engineer">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="input-field" placeholder="johndoe@example.com">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" class="input-field" placeholder="(123) 456-7890">
+          </div>
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" class="input-field" placeholder="New York, NY">
+          </div>
+          <div class="form-group">
+            <label for="summary">Professional Summary</label>
+            <textarea id="summary" rows="5" class="input-field" placeholder="Briefly describe your professional background and career goals..."></textarea>
+          </div>
+        </div>
+
+        <!-- Education Tab -->
+        <div class="tab-content" id="education-tab">
+          <h2>Education</h2>
+          <div id="education-container">
+            <!-- Education entries will be added here dynamically -->
+          </div>
+          <button type="button" id="add-education" class="add-btn">+ Add Education</button>
+        </div>
+
+        <!-- Experience Tab -->
+        <div class="tab-content" id="experience-tab">
+          <h2>Work Experience</h2>
+          <div id="experience-container">
+            <!-- Experience entries will be added here dynamically -->
+          </div>
+          <button type="button" id="add-experience" class="add-btn">+ Add Experience</button>
+        </div>
+
+        <!-- Skills Tab -->
+        <div class="tab-content" id="skills-tab">
+          <h2>Skills</h2>
+          <div id="skills-container">
+            <!-- Skill entries will be added here dynamically -->
+          </div>
+          <button type="button" id="add-skill" class="add-btn">+ Add Skill</button>
+        </div>
+
+        <!-- Templates Tab -->
+        <div class="tab-content" id="templates-tab">
+          <h2>Choose a Template</h2>
+          <div class="templates-container">
+            <div class="template-option selected" data-template="template-1">
+              <div class="template-preview template-1-preview"></div>
+              <div class="template-name">Professional</div>
+            </div>
+            <div class="template-option" data-template="template-2">
+              <div class="template-preview template-2-preview"></div>
+              <div class="template-name">Modern</div>
+            </div>
+            <div class="template-option" data-template="template-3">
+              <div class="template-preview template-3-preview"></div>
+              <div class="template-name">Creative</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right panel: Preview -->
+      <div class="preview-panel">
+        <div class="preview-header">
+          <h2>Resume Preview</h2>
+          <div class="preview-actions">
+            <button type="button" id="update-preview-btn" class="action-btn">Update Preview</button>
+            <button type="button" id="print-btn" class="action-btn">Print</button>
+            <button type="button" id="download-pdf-btn" class="action-btn primary">Download PDF</button>
+            <button type="button" id="save-btn" class="action-btn">Save</button>
+            <button type="button" id="load-btn" class="action-btn">Load</button>
+          </div>
+        </div>
+        <div class="preview-container">
+          <div id="resume-preview" class="resume-preview template-1">
+            <!-- Resume content will be dynamically updated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Save Modal -->
+  <div id="save-modal" class="modal">
+    <div class="modal-content">
+      <span id="modal-close" class="close-btn">&times;</span>
+      <h2>Save Resume</h2>
+      <div class="form-group">
+        <label for="save-name">Resume Name</label>
+        <input type="text" id="save-name" class="input-field" placeholder="My Professional Resume">
+      </div>
+      <button type="button" id="confirm-save-btn" class="action-btn primary">Save</button>
+    </div>
+  </div>
+
+  <!-- Load Modal -->
+  <div id="load-modal" class="modal">
+    <div class="modal-content">
+      <span id="load-modal-close" class="close-btn">&times;</span>
+      <h2>Load Saved Resume</h2>
+      <div id="saved-data-list" class="saved-data-list">
+        <!-- Saved resume entries will be added here dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Generating PDF...</p>
+  </div>
+
+  <!-- Your existing script -->
+  <script src="script.js"></script>
+</body>
+</html>
